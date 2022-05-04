@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <center><h1>Add Animals Into The Database</h1></center>
+  <form action="" method="post">
+    {{ form.csrf }}
+    <center>
+      <div class="input text">
+        {{ form.name.label }} <br> {{ form.name }} <br/><br/>
+        {{ form.species.label }} <br> {{ form.species }} <br/><br/>
+        {{ form.pri_col.label }} <br> {{ form.pri_col }} <br/><br/>
+        {{ form.chip_id.label }} <br> {{ form.chip_id }} <br/><br/>
+        {{ form.breed.label }} <br> {{ form.breed }} <br/><br/>
+        {{ form.gender.label }} <br> {{ form.gender }} <br/><br/>
+        {{ form.dob.label }} <br> {{ form.dob }} <br/><br/>
+        {{ form.pattern.label }} <br> {{ form.pattern }} <br/><br/>
+        {{ form.adm_year.label }} <br> {{ form.adm_year }} <br/><br/>
+      </div>
+      <div class="input submit">
+        <input type="submit" value="Submit" />
+      </div>
+    </center>
+  </form>
+
+{% endblock %}

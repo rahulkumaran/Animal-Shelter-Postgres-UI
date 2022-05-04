@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <center><h1>Delete Animal By Chip ID</h1></center>
+  <form action="" method="post">
+    {{ form.csrf }}
+    <center>
+      <div class="input text">
+        {{ form.chip_id.label }} <br> {{ form.chip_id }} <br/><br/>
+      </div>
+      <div class="input submit">
+        <input type="submit" value="Submit" />
+      </div>
+    </center>
+  </form>
+
+{% endblock %}

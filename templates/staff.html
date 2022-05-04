@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+	<center><h1>View All Animal Details</h1></center>
+
+	<br>
+	<div align="center" style="margin-left:20px;">
+	{% if data == "()" %}
+		<center><h1>Sorry, but we couldn't find anyone with the given first and last name.<br/> Try searching again.</h1></center>
+	{% else %}
+	{% for details in data %}
+	  <center>
+	    <div class="col-sm-3" style="width: 500px;height: 170px;padding: 25px;border: 2px solid black; margin-right:100px; margin-bottom:20px;">
+	  	   <a href="{{ url_for('individual_page', name=details[0]) }}"><h4>{{ details[2]}} {{ details[3] }}</h4></a><br/>
+				 <span class="lead">Hire Year : {{ details[1] }} <br>Email : {{ details[0] }}</span>
+	    </div>
+	  </center>
+	{% endfor %}
+	{% endif %}
+
+{% endblock %}
