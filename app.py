@@ -11,6 +11,10 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 import psycopg2
 
 
+
+db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
+cursor = db.cursor()
+
 DEBUG = True
 # Load the secrets from the '.secrets' file
 env_path = Path('.') / '.secrets'	
@@ -32,9 +36,6 @@ def index():
 	The root route, i.e. the landing page
 	'''
 
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-	cursor = db.cursor()
-
 	cursor.execute("SELECT COUNT(*) FROM animals;")
 	count_animals = cursor.fetchall()[0][0]
 
@@ -52,10 +53,7 @@ def search():
 	entered by the user in the /search form.
 	'''
 	form = ReusableForm(request.form)	#Creating a form object
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-	#db = sqlite3.connect("db/animal_shelter.db")
-
-	cursor = db.cursor()
+	
 
 	cursor.execute("SELECT COUNT(*) FROM vaccinations;")
 	vaccines_dispersed = cursor.fetchall()
@@ -85,9 +83,7 @@ def alumni():
 @app.route("/adoptions")
 def adoptions():
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
 
-	cursor = db.cursor()
 
 	data = get_adoptions(cursor)
 	#print(data[1])
@@ -97,9 +93,7 @@ def adoptions():
 @app.route("/animals")
 def animals():
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
 
-	cursor = db.cursor()
 
 	data = get_animals(cursor)
 	#print(data[1])
@@ -110,10 +104,6 @@ def animals():
 def species():
 	
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-
-	cursor = db.cursor()
-
 
 	data = get_species(cursor)
 	#print(data[1])
@@ -123,9 +113,6 @@ def species():
 @app.route("/staff")
 def staff():
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-
-	cursor = db.cursor()
 
 	data = get_staff(cursor)
 
@@ -151,9 +138,6 @@ def individual_page(name):
 	from and when they are clicked.
 	'''
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-
-	cursor = db.cursor()
 
 	data = get_animal_details_by_name(cursor, name)
 	#print(data[1])
@@ -164,8 +148,8 @@ def individual_page(name):
 def update_experience():
 	form = UpdateForm(request.form)	#Creating a form object
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
 
+	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
 	cursor = db.cursor()
 	
 	if(request.method == 'POST'):		#If the user submits data in the Form
@@ -213,9 +197,9 @@ def update_experience():
 
 						print(cursor, name, species, pri_col, chip_id, breed, gender, dob, pattern, adm_year)
 						return redirect(url_for("index"))
-				#update_exp(db, cursor, name, species, pri_col, chip_id, breed, gender, dob, pattern, adm_year)
-				#print(cursor, name, species, pri_col, chip_id, breed, gender, dob, pattern, adm_year)
-				#return render_template("index.html")
+				'''update_exp(db, cursor, name, species, pri_col, chip_id, breed, gender, dob, pattern, adm_year)
+				print(cursor, name, species, pri_col, chip_id, breed, gender, dob, pattern, adm_year)
+				return render_template("index.html")'''
 
 				
 			except psycopg2.errors.UniqueViolation:
@@ -224,13 +208,19 @@ def update_experience():
 
 	return render_template("update_experience.html", form=form)
 
+'''
+@app.route("/<string:table>&COLUMN=<string:column>&ORDER=<string:order>")
+def adoptions_sort(table, column, order):
+	data = get_table_entry_in_order(cursor, table table, column, order)
+	#print(data[1])
+
+	return render_template("adoptions.html", data=data)'''
+
+
 @app.route("/update-animal-single", methods=['GET','POST'])
 def update_animal_single():
 	form = UpdateAnimalNameForm(request.form)	#Creating a form object
 	#db = sqlite3.connect("db/animal_shelter.db")
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-
-	cursor = db.cursor()
 	
 	if(request.method == 'POST'):		#If the user submits data in the Form
 		if(form.validate()):		#If form is validated
@@ -245,10 +235,6 @@ def update_animal_single():
 @app.route("/delete-animal", methods=['GET','POST'])
 def delete_animal():
 	form = DeleteAnimalForm(request.form)	#Creating a form object
-
-	db = psycopg2.connect(database = "Animal_Shelter", user = "postgres", password = "123456", host = "127.0.0.1", port = "5434")
-
-	cursor = db.cursor()
 	
 	if(request.method == 'POST'):		#If the user submits data in the Form
 		if(form.validate()):		#If form is validated

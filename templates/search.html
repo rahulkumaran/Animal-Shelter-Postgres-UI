@@ -1,8 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	<center><h1>Total Vaccinations Given To Date : {{ vaccines_dispersed }}</h1></center>
-	<center><h1>Search For Vaccination Status By Animal Name</h1></center>
+	<center>
+		<h1>Vaccination Search Station</h1>
+		<img src="{{ url_for('static',filename='images/vaccine.jpeg') }}" style="width:900px;height:350px;">
+
+	
+	</center><br><br>
+	
+	<center><h2>Total Vaccinations Given To Date : {{ vaccines_dispersed }}</h2></center>
+	<center><h2>Search For Vaccination Status By Animal Name</h2></center>
 	<form action="" method="post">
 		{{ form.csrf }}
 		<center>
@@ -16,13 +23,13 @@
 	</form>
 
 	<br>
-	<div align="center" style="margin-left:20px;">
+	<div align="center" style="margin-left:120px;">
 	{% if batch_list == "()" %}
 		<center><h1>Sorry, but we couldn't find anyone with the given first and last name.<br/> Try searching again.</h1></center>
 	{% else %}
 	{% for details in batch_list %}
 	  <center>
-	    <div class="col-sm-3" style="width: 180px;height: 220px;padding: 25px;border: 2px solid black; margin-right:100px; margin-bottom:20px;">
+	    <div class="col-sm-3" style="width: 220px;height: 220px;padding: 25px;border: 2px solid black; margin-right:100px; margin-bottom:20px;">
 	  	   <a href="{{ url_for('individual_page', name=details[0]) }}"><h4>{{ details[0]}} ({{ details[1] }})</h4></a><br/>
 				 <span class="lead">{{ details[3] }} <br>{{ details[4]}}<br>{{ details[2]}}</span>
 	    </div>

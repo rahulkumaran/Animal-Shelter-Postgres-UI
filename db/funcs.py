@@ -112,6 +112,12 @@ def get_adoptions(cursor):
 	print(data)
 	return data
 
+def get_table_entry_in_order(cursor, table, column, order):
+	cursor.execute("SELECT * FROM " + str(table) + " ORDER BY " + str(column) + " " + str(order) + ";")
+	data = cursor.fetchall()
+	print(data)
+	return data
+
 def get_species(cursor):
 	cursor.execute("SELECT * FROM species;")
 	data = cursor.fetchall()
